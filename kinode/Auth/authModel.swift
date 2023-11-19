@@ -272,6 +272,7 @@ struct VerifySessionServerResponse: defaultServerResponse {
 
 struct createUserInput: Codable {
     var email: String = ""
+    var username: String = ""
     var password: String = ""
     var passwordConfrim: String = ""
 }

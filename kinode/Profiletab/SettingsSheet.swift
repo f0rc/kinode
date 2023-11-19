@@ -18,12 +18,67 @@ struct SettingsSheet: View {
         return toggleEdit ? .gray : .black
     }
     
+    @StateObject private var searchText = DebouncedState(initValue: "", delay: 1.0)
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    @State private var usernameAvailable: Bool = false
+    @State private var loadingUsernameCheck: Bool = false
+    
     var body: some View {
         NavigationStack{
             VStack{
                 FormInput(text: $userProfileInfo.email, title: "Email", placeholder: "example@a.com")
                     .disabled(true)
                     .foregroundStyle(.gray)
+                
+                
+                HStack{
+                    FormInput(text: $searchText.currValue, title: "Username", placeholder: "@username")
+                        .disabled(toggleEdit)
+                        .autocapitalization(.none)
+                        .autocorrectionDisabled(true)
+                        .foregroundStyle(fieldColorDisabled)
+                        .onChange(of: searchText.deValue){
+                            self.loadingUsernameCheck = true
+                            Task {
+                                do{
+                                    if let token = auth.authToken {
+                                        self.usernameAvailable = try await userModel.checkUsername(sessionToken: token, usernameInput: searchText.deValue)
+                                    }
+                                    
+                                    self.loadingUsernameCheck = false
+                                }catch {
+                                    self.loadingUsernameCheck = false
+                                    print("epic fail")
+                                }
+                            }
+                            self.userModel.user.username = searchText.deValue
+                            self.loadingUsernameCheck = false
+                            
+                        }
+                    
+                    
+                    if !toggleEdit {
+                        if (searchText.deValue != userProfileInfo.username && searchText.currValue != userProfileInfo.username){
+                            
+                            if loadingUsernameCheck {
+                                ProgressView()
+                                    .foregroundStyle(.black)
+                            }
+                            else if usernameAvailable {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundStyle(.green)
+                            }else {
+                                Image(systemName: "x.circle.fill")
+                                    .foregroundStyle(.red)
+                            }
+                        }
+                    }
+                }
                 
                 FormInput(text: $userProfileInfo.name, title: "Display Name", placeholder: "James")
                     .disabled(toggleEdit)
@@ -82,6 +137,9 @@ struct SettingsSheet: View {
                 // update button push to server
                 
             }
+        }
+        .onAppear {
+            self.searchText.currValue = userProfileInfo.username
         }
         
     }

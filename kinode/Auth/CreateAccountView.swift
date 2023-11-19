@@ -38,6 +38,17 @@ struct CreateAccountView: View {
                             topError = ""
                         }
                         
+                        FormInput(text: $createUserForm.username, title: "Username",
+                                  placeholder: "username",
+                                  isSecureField: false)
+                        .autocapitalization(.none)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .onChange(of: createUserForm.username){
+                            topError = ""
+                        }
+                        
                         FormInput(text: $createUserForm.password, title: "Password",
                                   placeholder: "password",
                                   isSecureField: true)

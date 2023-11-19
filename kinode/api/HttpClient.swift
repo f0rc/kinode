@@ -148,4 +148,8 @@ extension URL {
         return URL(string: "/api/user/profile/getProfile", relativeTo: Self.default)!
     }
     
+    static var usernameCheck: URL {
+        return URL(string: "/api/user/usernameCheck", relativeTo: Self.default)!
+    }
+    
 }
