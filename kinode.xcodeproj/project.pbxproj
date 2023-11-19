@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F85296D92B09D638008EF726 /* DebounceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85296D82B09D637008EF726 /* DebounceInput.swift */; };
 		F893FD402AFB357600EEA5A3 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F893FD3F2AFB357600EEA5A3 /* ProfileModel.swift */; };
 		F8BE831F2AF84A09007DFF42 /* kinodeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BE831E2AF84A09007DFF42 /* kinodeApp.swift */; };
 		F8BE83212AF84A09007DFF42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BE83202AF84A09007DFF42 /* ContentView.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F85296D82B09D637008EF726 /* DebounceInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebounceInput.swift; sourceTree = "<group>"; };
 		F893FD3F2AFB357600EEA5A3 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		F8BE831B2AF84A09007DFF42 /* kinode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kinode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8BE831E2AF84A09007DFF42 /* kinodeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = kinodeApp.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			children = (
 				F8FA11452AF84AD900EB094B /* FormInput.swift */,
 				F8FA11462AF84AD900EB094B /* RatingView.swift */,
+				F85296D82B09D637008EF726 /* DebounceInput.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				F8FA115A2AF84AD900EB094B /* MediaMoreModal.swift in Sources */,
 				F8FA11602AF84AD900EB094B /* TabBarView.swift in Sources */,
 				F8FA11572AF84AD900EB094B /* ScrollSearch.swift in Sources */,
+				F85296D92B09D638008EF726 /* DebounceInput.swift in Sources */,
 				F8BE831F2AF84A09007DFF42 /* kinodeApp.swift in Sources */,
 				F8FA11542AF84AD900EB094B /* CreateAccountView.swift in Sources */,
 				F8FA11522AF84AD900EB094B /* LoginView.swift in Sources */,

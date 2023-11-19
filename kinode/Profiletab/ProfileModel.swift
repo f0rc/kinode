@@ -54,9 +54,10 @@ class ProfileModelController {
         struct profileUpdateInput: Codable {
             let sessionToken: String
             let displayName: String
+            let username: String
         }
         
-        let data = try JSONEncoder().encode(profileUpdateInput(sessionToken: sessionToken, displayName: user.name))
+        let data = try JSONEncoder().encode(profileUpdateInput(sessionToken: sessionToken, displayName: user.name, username: self.user.username))
         
         let userProfileResponse: userProfileUpdateResponse  = try await client.load(Resource(url: URL.updateProfile, method: .post(data)))
         
@@ -66,7 +67,29 @@ class ProfileModelController {
         
         let _ = try await self.loadProfileApi(sessionToken: sessionToken)
     }
+    
+    func checkUsername(sessionToken: String, usernameInput: String) async throws -> Bool {
+        struct  usernameCheckInfoApiInput: Codable {
+            let sessionToken: String
+            let username: String
+        }
+        
+        let data = try JSONEncoder().encode(usernameCheckInfoApiInput(sessionToken: sessionToken, username: usernameInput))
+        
+        let usernameAvail: checkUsernameServerResponse = try await client.load(Resource(url: URL.usernameCheck, method: .post(data)))
+        
+        if usernameAvail.status != "success" {
+            return false
+        }else {
+            return true
+        }
+    }
 
+}
+
+struct checkUsernameServerResponse: Codable {
+    let status: String
+    let message: String?
 }
 
 struct profileResponseApi: Codable{
