@@ -6,11 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ProfileTab: View {
     @Environment(AuthModel.self) private var auth
     
     @State private var toggleSettings: Bool = false
+    
+    @State var profileVM: ProfileModelController
+    
+    init(sessionToken: String) {
+        self.profileVM = ProfileModelController(sessionToken: sessionToken)
+    }
     
     var body: some View {
         NavigationStack{
@@ -21,18 +28,20 @@ struct ProfileTab: View {
                             .clipShape(Circle())
                             .frame(width: 82, height: 82)
                             .padding()
-                        Text("James Dean")
+                        
+                        // display name
+                        Text(profileVM.user.name)
                             .font(.title)
                             .fontWeight(.semibold)
                         
-                        Text(verbatim: "example@website.com")
+                        Text(verbatim: profileVM.user.email)
                             .font(.footnote)
                             .foregroundStyle(.gray)
                         
                         
                         HStack{
                             VStack{
-                                Text("120")
+                                Text("\(profileVM.user.followers)")
                                     .font(.title)
                                 Text("Followers")
                                     .font(.footnote)
@@ -41,7 +50,7 @@ struct ProfileTab: View {
                             Divider()
                             Spacer()
                             VStack{
-                                Text("20")
+                                Text("\(profileVM.user.following)")
                                     .font(.title)
                                 Text("Following")
                                     .font(.footnote)
@@ -50,7 +59,7 @@ struct ProfileTab: View {
                             Divider()
                             Spacer()
                             VStack{
-                                Text("20")
+                                Text("\(profileVM.user.moviesCount)")
                                     .font(.title)
                                 Text("Movies")
                                     .font(.footnote)
@@ -60,7 +69,7 @@ struct ProfileTab: View {
                             Divider()
                             Spacer()
                             VStack{
-                                Text("2")
+                                Text("\(profileVM.user.showsCount)")
                                     .font(.title)
                                 Text("Shows")
                                     .font(.footnote)
@@ -140,55 +149,26 @@ struct ProfileTab: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color("backgroundColor"))
                 .sheet(isPresented: $toggleSettings){
-                    settingsTab()
+                    
+                    SettingsSheet(userProfileInfo: $profileVM.user, userModel: $profileVM)
                         .presentationDetents([.large])
                         .presentationBackground(.yellow)
                         .presentationDragIndicator(.visible)
                 }
             }
         }
-    }
-}
-
-struct settingsTab: View {
-    @Environment(AuthModel.self) private var auth
-    
-    var body: some View {
-        NavigationStack{
-            VStack{
-                Button(action: {
-                    Task {
-                        do {
-                            try await auth.logout()
-                            
-                        }catch {
-                            print("failed to logout")
-                        }
-                    }
-                }) {
-                    Text("Log Out")
-                        .fontWeight(.semibold)
-                }
-                .padding()
-                .background(Color.red)
-                .foregroundColor(.white)
-                .cornerRadius(15)
-            }
-            .navigationTitle("Settings")
-            .toolbar {
-                Button(action: {
-                    print("edit profile")
-                }) {
-                    Text("Edit")
-                }
-                
+        .onAppear {
+            if let authTok = auth.authToken {
+                self.profileVM = ProfileModelController(sessionToken: authTok)
             }
         }
-        
     }
 }
 
+
+
 #Preview {
-    ProfileTab()
+    ProfileTab(sessionToken: "1234")
         .environment(AuthModel())
+        
 }
