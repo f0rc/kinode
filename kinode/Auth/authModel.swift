@@ -5,6 +5,7 @@
 ////  Created by  on 10/12/23.
 ////
 //
+
 import Foundation
 import Observation
 import Security
@@ -15,7 +16,6 @@ import SwiftUI
 @Observable
 class AuthModel {
     init() {
-        print("innnitting")
         Task {
             self.loading = true
             await self.loadSavedSessionData()

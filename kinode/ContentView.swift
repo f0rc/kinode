@@ -34,7 +34,7 @@ struct ContentView: View {
                         }
                         .tag(Tab.search)
                     
-                    ProfileTab()
+                    ProfileTab(sessionToken: auth.authToken!)
                         .tabItem {
                             Text("Profile")
                             

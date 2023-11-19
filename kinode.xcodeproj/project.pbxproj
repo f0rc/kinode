@@ -12,6 +12,7 @@
 		F8BE83212AF84A09007DFF42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BE83202AF84A09007DFF42 /* ContentView.swift */; };
 		F8BE83232AF84A0A007DFF42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8BE83222AF84A0A007DFF42 /* Assets.xcassets */; };
 		F8BE83262AF84A0A007DFF42 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8BE83252AF84A0A007DFF42 /* Preview Assets.xcassets */; };
+		F8EF590E2B09901200EE3F7A /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EF590D2B09901200EE3F7A /* SettingsSheet.swift */; };
 		F8FA11502AF84AD900EB094B /* SearchTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA11362AF84AD900EB094B /* SearchTab.swift */; };
 		F8FA11512AF84AD900EB094B /* authModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA11382AF84AD900EB094B /* authModel.swift */; };
 		F8FA11522AF84AD900EB094B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA11392AF84AD900EB094B /* LoginView.swift */; };
@@ -39,6 +40,7 @@
 		F8BE83202AF84A09007DFF42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F8BE83222AF84A0A007DFF42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8BE83252AF84A0A007DFF42 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F8EF590D2B09901200EE3F7A /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		F8FA11362AF84AD900EB094B /* SearchTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTab.swift; sourceTree = "<group>"; };
 		F8FA11382AF84AD900EB094B /* authModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = authModel.swift; sourceTree = "<group>"; };
 		F8FA11392AF84AD900EB094B /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			children = (
 				F8FA11422AF84AD900EB094B /* ProfileTab.swift */,
 				F893FD3F2AFB357600EEA5A3 /* ProfileModel.swift */,
+				F8EF590D2B09901200EE3F7A /* SettingsSheet.swift */,
 			);
 			path = Profiletab;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				F8FA11632AF84AD900EB094B /* SearchClient.swift in Sources */,
 				F8FA11622AF84AD900EB094B /* HttpClient.swift in Sources */,
 				F8FA11592AF84AD900EB094B /* ProfileTab.swift in Sources */,
+				F8EF590E2B09901200EE3F7A /* SettingsSheet.swift in Sources */,
 				F8FA115A2AF84AD900EB094B /* MediaMoreModal.swift in Sources */,
 				F8FA11602AF84AD900EB094B /* TabBarView.swift in Sources */,
 				F8FA11572AF84AD900EB094B /* ScrollSearch.swift in Sources */,
