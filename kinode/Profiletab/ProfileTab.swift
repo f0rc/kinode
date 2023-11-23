@@ -34,7 +34,7 @@ struct ProfileTab: View {
                             .font(.title)
                             .fontWeight(.semibold)
                         
-                        Text(verbatim: profileVM.user.email)
+                        Text("@\(profileVM.user.username)")
                             .font(.footnote)
                             .foregroundStyle(.gray)
                         

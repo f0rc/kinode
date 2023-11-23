@@ -52,6 +52,11 @@ struct SearchResult: Codable {
     }
 }
 
+struct Person: Codable {
+    let id, displayName, avatar, userID: String
+    let createdAt, updatedAt: String
+}
+
 struct searchRequest: Codable{
     let query: String
     let sessionToken: String
@@ -61,6 +66,7 @@ struct searchServerResponse: Codable {
     let status: String
     let message: String
     let searchResult: [SearchResult]
+    let people: [Person]?
 }
 
 
@@ -71,8 +77,14 @@ func searchApi(req: searchRequest) async throws -> [SearchResult]? {
     
     let searchRes: searchServerResponse  = try await client.load(Resource(url: URL.search, method: .post(data)))
     
+    
+    
     if searchRes.status != "success" {
         return nil
+    }
+    
+    if let people = searchRes.people {
+        
     }
     
     return searchRes.searchResult

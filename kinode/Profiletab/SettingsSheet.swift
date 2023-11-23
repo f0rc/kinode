@@ -43,41 +43,44 @@ struct SettingsSheet: View {
                         .autocorrectionDisabled(true)
                         .foregroundStyle(fieldColorDisabled)
                         .onChange(of: searchText.deValue){
+                            // TODO: CLEAN UP
                             self.loadingUsernameCheck = true
-                            Task {
-                                do{
-                                    if let token = auth.authToken {
-                                        self.usernameAvailable = try await userModel.checkUsername(sessionToken: token, usernameInput: searchText.deValue)
+                            if (searchText.deValue != userProfileInfo.username) {
+                                print("username changed")
+                                Task {
+                                    do{
+                                        if let token = auth.authToken {
+                                            self.usernameAvailable = try await userModel.checkUsername(sessionToken: token, usernameInput: searchText.deValue)
+                                        }
+                                        
+                                        self.loadingUsernameCheck = false
+                                    }catch {
+                                        self.usernameAvailable = false
+                                        self.loadingUsernameCheck = false
                                     }
-                                    
-                                    self.loadingUsernameCheck = false
-                                }catch {
-                                    self.loadingUsernameCheck = false
-                                    print("epic fail")
                                 }
                             }
-                            self.userModel.user.username = searchText.deValue
                             self.loadingUsernameCheck = false
-                            
                         }
                     
                     
-                    if !toggleEdit {
-                        if (searchText.deValue != userProfileInfo.username && searchText.currValue != userProfileInfo.username){
-                            
-                            if loadingUsernameCheck {
-                                ProgressView()
-                                    .foregroundStyle(.black)
-                            }
-                            else if usernameAvailable {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                            }else {
-                                Image(systemName: "x.circle.fill")
-                                    .foregroundStyle(.red)
-                            }
+                    
+                    
+                    if (searchText.deValue != userProfileInfo.username){
+                        
+                        if loadingUsernameCheck {
+                            ProgressView()
+                                .foregroundStyle(.black)
+                        }
+                        else if usernameAvailable {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                        }else {
+                            Image(systemName: "x.circle.fill")
+                                .foregroundStyle(.red)
                         }
                     }
+                    
                 }
                 
                 FormInput(text: $userProfileInfo.name, title: "Display Name", placeholder: "James")
@@ -109,37 +112,59 @@ struct SettingsSheet: View {
             }
             .navigationTitle("Settings")
             .toolbar {
-                if toggleEdit {
-                    Button(action: {
-                        toggleEdit.toggle()
-                    }) {
-                        Text("Edit")
-                    }
-                } else {
-                    Button(action: {
-                        Task{
-                            if let token = auth.authToken {
-                                do {
-                                    try await userModel.updateUserProfileApi(sessionToken: token)
-                                }
-                                catch {
-                                    print("Something went wrong when updating profile from modal")
-                                }
+                
+                    
+                    if toggleEdit {
+                        ToolbarItem(placement: .topBarTrailing){
+                            Button(action: {
+                                
+                                toggleEdit.toggle()
+                            }) {
+                                Text("Edit")
                             }
-                            
-                            toggleEdit.toggle()
                         }
-                    }) {
-                        Text("Save")
+                    } else {
+                        
+                        ToolbarItem(placement: .topBarLeading){
+                            Button(action: {
+                                searchText.currValue = userModel.user.username
+                                
+                                toggleEdit.toggle()
+                            }) {
+                                Text("Cancel")
+                            }
+                        }
+
+                        ToolbarItem(placement: .topBarTrailing){
+                            Button(action: {
+                                Task{
+                                    if usernameAvailable {
+                                        if let token = auth.authToken {
+                                            do {
+                                                try await userModel.updateUserProfileApi(sessionToken: token)
+                                                let _ = try await userModel.loadProfileApi(sessionToken: token)
+                                            }
+                                            catch {
+                                                print("Something went wrong when updating profile from modal")
+                                            }
+                                        }
+                                        
+                                        
+                                        toggleEdit.toggle()
+                                    }
+                                }
+                            }) {
+                                Text("Save")
+                            }
+                        }
                     }
-                }
-                
-                // update button push to server
-                
             }
+            
+            
         }
         .onAppear {
             self.searchText.currValue = userProfileInfo.username
+            self.searchText.deValue = userProfileInfo.username
         }
         
     }
