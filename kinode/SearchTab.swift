@@ -10,11 +10,17 @@ import Combine
 
 struct SearchTab: View {
     @State private var searchResult: [SearchResult] = []
+    
+    
+    @State private var peopleSearchResult: [Person] = []
+    
     @Environment(AuthModel.self) private var auth
     
     
     @StateObject private var searchText = DebouncedState(initValue: "")
-        private let dateFormatter: DateFormatter = {
+    
+    
+    private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
@@ -33,15 +39,31 @@ struct SearchTab: View {
                                 .autocorrectionDisabled()
                                 .autocapitalization(.none)
                                 .onChange(of: searchText.deValue){
-                                    Task {
-                                        do{
-                                            guard let reqRes = try await searchApi(req: searchRequest(query: searchText.deValue, sessionToken: auth.authToken ?? "")) else {
-                                                return
+                                    if (searchText.deValue.contains("@")) {
+                                        
+                                        Task {
+                                            do {
+                                                guard let reqRes = try await searchPeopleApi(req: searchRequest(query: searchText.deValue, sessionToken: auth.authToken ?? "")) else {
+                                                    return
+                                                }
+                                                
+                                                peopleSearchResult = reqRes
+                                            }catch {
+                                                print("failed to fetch people or result is none")
                                             }
-                                            
-                                            searchResult = reqRes
-                                        }catch {
-                                            print("epic fail")
+                                        }
+                                        
+                                    } else if (!searchText.deValue.contains("@") && searchText.deValue.count >= 3) {
+                                        Task {
+                                            do{
+                                                guard let reqRes = try await searchApi(req: searchRequest(query: searchText.deValue, sessionToken: auth.authToken ?? "")) else {
+                                                    return
+                                                }
+                                                
+                                                searchResult = reqRes
+                                            }catch {
+                                                print("failed to fetch media items or result is none")
+                                            }
                                         }
                                     }
                                 }
@@ -54,90 +76,17 @@ struct SearchTab: View {
                     }
                     .padding(EdgeInsets(top: 30, leading:20, bottom: 20, trailing: 20))
                     if searchText.currValue == "" {
-                        ScrollView{
-                            VStack {
-                                ScrollSearch(data: exampleSearchResults, SectionTitle: "New Movie Releases")
-                                
-                                ScrollSearch(data: exampleSearchResults, SectionTitle: "Popular Movie")
-                                
-                                ScrollSearch(data: exampleSearchResults, SectionTitle: "New TV Show Releases")
-                                
-                                ScrollSearch(data: exampleSearchResults, SectionTitle: "Popular TV Show")
-                            }
-                            
-                        }
-                    }else if searchText.currValue.count > 1 {
-                        
-                        
-                        ScrollView(.vertical, showsIndicators: false) {
-                            
-                            VStack(alignment: .leading){
-                                ForEach($searchResult, id: \.id) { $searchItem in
-                                    NavigationLink(destination: MediaDetailView(mediaItem: searchItem)){
-                                        HStack(alignment: .top, spacing: 10){
-                                            AsyncImage(url:URL(string:getImgUrl(imgPath: tmdbImage(imagePath: searchItem.posterPath ?? "NOT")))
-                                            ){img in
-                                                img.resizable()
-                                            } placeholder: {
-                                                Image("DefaultPoster")
-                                                    .resizable()
-                                            }
-                                            .frame(width: 100, height: 130)
-                                            .cornerRadius(20)
-                                            
-                                            VStack(alignment: .leading, spacing: 0){
-                                                HStack(alignment: .top){
-                                                    Text((searchItem.name ?? searchItem.title) ?? "Unable to fetch Name")
-                                                        .font(.headline)
-                                                        .lineLimit(1)
-                                                    Spacer()
-                                                    
-                                                    if let releaseDate = searchItem.releaseDate ?? searchItem.firstAirDate {
-                                                        
-                                                        if let date = dateFormatter.date(from: releaseDate) {
-                                                            
-                                                            let calendar = Calendar.current
-                                                            let year = calendar.component(.year, from: date)
-                                                            Text(verbatim: "\(year)")
-                                                                .font(.footnote)
-                                                        }
-                                                    }
-                                                }
-                                                Spacer()
-                                                if let summaryText = searchItem.overview {
-                                                    Text(summaryText)
-                                                        .font(.subheadline)
-                                                        .lineLimit(2)
-                                                }
-                                                Spacer()
-                                                HStack(alignment: .center, spacing:0){
-                                                    
-                                                    if let voteAverage = searchItem.voteAverage {
-                                                        
-                                                        if(voteAverage >= 0.1){
-                                                            Image(systemName: "star.fill")
-                                                                .padding(.trailing, 3)
-                                                            let rating = String(format: "%.1f", voteAverage)
-                                                            Text("\(rating)/10")
-                                                                .font(.system(size:17))
-                                                        }
-                                                        
-                                                    }
-                                                }
-                                                
-                                                
-                                                
-                                            }
-                                            .padding(.top)
-                                        }
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                    
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
+                        DiscoverView(data: exampleSearchResults)
                     }
+                    else if searchText.deValue.contains("@"){
+                        PeopleSearchResultView(searchResult: $peopleSearchResult)
+                    }
+                    else if searchText.currValue.count > 1{
+                        
+                        MediaSearchResult(searchResult: $searchResult)
+                        
+                    }
+                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 

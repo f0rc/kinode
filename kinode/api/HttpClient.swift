@@ -69,6 +69,7 @@ class StoreHTTPClient {
 //            print(data)
             throw NetworkError.invalidResponse
         }
+    
         
         guard let result = try? JSONDecoder().decode(T.self, from: data) else {
             print("[httpClient load] after success req decode failed")
@@ -150,6 +151,10 @@ extension URL {
     
     static var usernameCheck: URL {
         return URL(string: "/api/user/usernameCheck", relativeTo: Self.default)!
+    }
+    
+    static var searchPeople: URL {
+        return URL(string: "/api/user/searchPeople", relativeTo: Self.default)!
     }
     
 }
