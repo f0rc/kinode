@@ -60,19 +60,9 @@ struct Person: Codable {
     let createdAt, updatedAt: String
     let followers: Int
     let following: Int
-    let user: User
-    
-    init(id: String, displayName: String, userId: String, avatar: String?, createdAt: String, updatedAt: String, followers: Int, following: Int, username: String) {
-        self.id = id
-        self.displayName = displayName
-        self.userId = userId
-        self.avatar = avatar
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.followers = followers
-        self.following = following
-        self.user = User(username: username)
-    }
+    let moviesCount: Int
+    let showsCount: Int
+    let username: String
 }
 
 struct User: Codable {
@@ -261,14 +251,14 @@ let exampleSearchResults: [SearchResult] = [
 
 
 let fakePeopleResult = [
-    Person(id: "1aBcDeFgHi", displayName: "JohnDoe", userId: "user_123", avatar: "avatar1.png", createdAt: "2023-01-15 08:30:00", updatedAt: "2023-11-22 14:45:00", followers: 532, following: 213, username: "Johndow"),
-    Person(id: "2XyZaBcDeF", displayName: "AliceSmith", userId: "user_456", avatar: "avatar2.jpg", createdAt: "2023-02-20 11:20:00", updatedAt: "2023-11-22 16:55:00", followers: 287, following: 442, username: "alicesmith_456"),
-    Person(id: "3PqRsTuVwX", displayName: "BobJohnson", userId: "user_789", avatar: "avatar3.png", createdAt: "2023-03-25 13:45:00", updatedAt: "2023-11-22 18:10:00", followers: 674, following: 129, username: "bobjohnson_789"),
-    Person(id: "4MnOpQrStU", displayName: "EmilyBrown", userId: "user_012", avatar: "avatar4.jpg", createdAt: "2023-04-30 16:10:00", updatedAt: "2023-11-22 20:25:00", followers: 421, following: 311, username: "emilybrown_012"),
-    Person(id: "5JkLmNoPqR", displayName: "MichaelAdams", userId: "user_345", avatar: "avatar5.png", createdAt: "2023-05-05 18:35:00", updatedAt: "2023-11-22 22:40:00", followers: 839, following: 208, username: "michaeladams_345"),
-    Person(id: "6EfGhIjKlM", displayName: "SophiaWilson", userId: "user_678", avatar: "avatar6.jpg", createdAt: "2023-06-10 20:50:00", updatedAt: "2023-11-23 00:55:00", followers: 572, following: 123, username: "sophiawilson_678"),
-    Person(id: "7ZxYwVuTsR", displayName: "DavidMiller", userId: "user_901", avatar: "avatar7.png", createdAt: "2023-07-15 23:15:00", updatedAt: "2023-11-23 03:10:00", followers: 376, following: 468, username: "davidmiller_901"),
-    Person(id: "8HgFeDcBaZ", displayName: "OliviaGarcia", userId: "user_234", avatar: "avatar8.jpg", createdAt: "2023-08-20 01:30:00", updatedAt: "2023-11-23 05:25:00", followers: 714, following: 212, username: "oliviagarcia_234"),
-    Person(id: "9YtRxQwPoN", displayName: "WilliamMartinez", userId: "user_567", avatar: "avatar9.png", createdAt: "2023-09-25 03:45:00", updatedAt: "2023-11-23 07:40:00", followers: 295, following: 642, username: "williammartinez_567"),
-    Person(id: "10AzByCxVw", displayName: "EmmaTaylor", userId: "user_890", avatar: "avatar10.jpg", createdAt: "2023-10-30 06:00:00", updatedAt: "2023-11-23 09:55:00", followers: 765, following: 123, username: "emmataylor_890")
+    Person(id: "1aBcDeFgHi", displayName: "JohnDoe", userId: "user_123", avatar: "avatar1.png", createdAt: "2023-01-15 08:30:00", updatedAt: "2023-11-22 14:45:00", followers: 532, following: 213, moviesCount: 765, showsCount: 123, username: "Johndow"),
+    Person(id: "2XyZaBcDeF", displayName: "AliceSmith", userId: "user_456", avatar: "avatar2.jpg", createdAt: "2023-02-20 11:20:00", updatedAt: "2023-11-22 16:55:00", followers: 287, following: 442, moviesCount: 765, showsCount: 123, username: "alicesmith_456"),
+    Person(id: "3PqRsTuVwX", displayName: "BobJohnson", userId: "user_789", avatar: "avatar3.png", createdAt: "2023-03-25 13:45:00", updatedAt: "2023-11-22 18:10:00", followers: 674, following: 129, moviesCount: 765, showsCount: 123, username: "bobjohnson_789"),
+    Person(id: "4MnOpQrStU", displayName: "EmilyBrown", userId: "user_012", avatar: "avatar4.jpg", createdAt: "2023-04-30 16:10:00", updatedAt: "2023-11-22 20:25:00", followers: 421, following: 311, moviesCount: 765, showsCount: 123, username: "emilybrown_012"),
+    Person(id: "5JkLmNoPqR", displayName: "MichaelAdams", userId: "user_345", avatar: "avatar5.png", createdAt: "2023-05-05 18:35:00", updatedAt: "2023-11-22 22:40:00", followers: 839, following: 208, moviesCount: 765, showsCount: 123, username: "michaeladams_345"),
+    Person(id: "6EfGhIjKlM", displayName: "SophiaWilson", userId: "user_678", avatar: "avatar6.jpg", createdAt: "2023-06-10 20:50:00", updatedAt: "2023-11-23 00:55:00", followers: 572, following: 123, moviesCount: 765, showsCount: 123, username: "sophiawilson_678"),
+    Person(id: "7ZxYwVuTsR", displayName: "DavidMiller", userId: "user_901", avatar: "avatar7.png", createdAt: "2023-07-15 23:15:00", updatedAt: "2023-11-23 03:10:00", followers: 376, following: 468, moviesCount: 765, showsCount: 123, username: "davidmiller_901"),
+    Person(id: "8HgFeDcBaZ", displayName: "OliviaGarcia", userId: "user_234", avatar: "avatar8.jpg", createdAt: "2023-08-20 01:30:00", updatedAt: "2023-11-23 05:25:00", followers: 714, following: 212, moviesCount: 765, showsCount: 123, username: "oliviagarcia_234"),
+    Person(id: "9YtRxQwPoN", displayName: "WilliamMartinez", userId: "user_567", avatar: "avatar9.png", createdAt: "2023-09-25 03:45:00", updatedAt: "2023-11-23 07:40:00", followers: 295, following: 642, moviesCount: 765, showsCount: 123, username: "williammartinez_567"),
+    Person(id: "10AzByCxVw", displayName: "EmmaTaylor", userId: "user_890", avatar: "avatar10.jpg", createdAt: "2023-10-30 06:00:00", updatedAt: "2023-11-23 09:55:00", followers: 765, following: 123, moviesCount: 765, showsCount: 123, username: "emmataylor_890")
 ]

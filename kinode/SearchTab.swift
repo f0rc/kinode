@@ -91,7 +91,7 @@ struct SearchTab: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 
             }
-            .background(.gray)
+            .background(Color("backgroundColor"))
         }
     }
     

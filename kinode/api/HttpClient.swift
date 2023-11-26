@@ -65,14 +65,13 @@ class StoreHTTPClient {
               httpResponse.statusCode == 200 || httpResponse.statusCode == 201
         else {
             print("[httpClient load] http status code is not 200 or 201")
-//            print(response)
-//            print(data)
             throw NetworkError.invalidResponse
         }
     
         
         guard let result = try? JSONDecoder().decode(T.self, from: data) else {
             print("[httpClient load] after success req decode failed")
+            print(data)
             throw NetworkError.decodingError
         }
         

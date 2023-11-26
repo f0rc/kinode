@@ -28,11 +28,27 @@ struct PeopleSearchResultView: View {
                                     .lineLimit(1)
                                 Spacer()
                             }
-                            Text("@\(searchItem.user.username)")
+                            Text("@\(searchItem.username)")
                                 .font(.footnote)
                                 .foregroundStyle(.gray)
                             
                             Spacer()
+                            
+                            HStack{
+                                HStack{
+                                    Image(systemName: "tv")
+                                    Text("\(searchItem.showsCount)")
+                                        .font(.caption)
+                                }
+                                
+                                HStack{
+                                    Image(systemName: "film")
+                                    Text("\(searchItem.moviesCount)")
+                                        .font(.caption)
+                                }
+                                
+                                
+                            }
                         }
                         .padding(.vertical)
                         
@@ -44,7 +60,7 @@ struct PeopleSearchResultView: View {
                                 .padding(10)
                                 .background(.gray)
                                 .cornerRadius(10)
-                                .font(.subheadline)
+                                .font(.caption)
                                 .padding(.vertical)
                         }
                             
