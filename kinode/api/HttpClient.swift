@@ -156,4 +156,12 @@ extension URL {
         return URL(string: "/api/user/searchPeople", relativeTo: Self.default)!
     }
     
+    static var followUser: URL {
+        return URL(string: "/api/user/follow", relativeTo: Self.default)!
+    }
+    
+    static var unfollowUser: URL {
+        return URL(string: "/api/user/unfollow", relativeTo: Self.default)!
+    }
+    
 }
