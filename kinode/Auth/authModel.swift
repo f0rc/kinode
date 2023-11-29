@@ -38,7 +38,7 @@ class AuthModel {
             print("unable to find user email")
             return
         }
-        
+         
         guard let authTokenData = keychainRead(service: authServiceName, account: userEmail),
               let authTokenT = String(data: authTokenData, encoding: .utf8) else {
             // Auth token is not found; the session data is not available.
@@ -67,6 +67,7 @@ class AuthModel {
         self.userEmail = userEmail
         self.authToken = authTokenT
         self.isAuthenticated = true
+    
     }
     
     // ------ Verify Session ------
@@ -257,6 +258,8 @@ struct LoginUserServerResponse: defaultServerResponse {
     var message: String = ""
     var status: String = ""
     var sessionToken: String?
+    var username: String?
+    var userId: String?
 }
 
 struct CreateUserAccountServerResponse: defaultServerResponse {

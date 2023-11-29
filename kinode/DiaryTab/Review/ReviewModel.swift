@@ -22,7 +22,6 @@ class ReviewModel {
     }
     
     func loadReviews() {
-        reviews.removeAll() // Clear existing reviews
         let userDefaults = UserDefaults.standard
         
         // Loop through UserDefaults keys and load reviews
@@ -46,7 +45,7 @@ class ReviewModel {
     func saveReviewToUserDefaults(review: Review) {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(review) {
-            UserDefaults.standard.set(encoded, forKey: "\(review.mediaId)_\(review.mediaName)")
+            UserDefaults.standard.set(encoded, forKey: "\(review.mediaId)_\(review.id)")
         }else {
             print("failed to save to user dfaults")
         }
@@ -54,7 +53,7 @@ class ReviewModel {
 
     
     func sendReviewToServer(review: Review, sessionToken: String) async throws -> Bool{
-        let reviewServer = ReviewServerInput(sessionToken: sessionToken, mediaId: review.mediaId, rating: review.rating, liked: review.liked, content: review.mediaName)
+        let reviewServer = ReviewServerInput(sessionToken: sessionToken, mediaId: review.mediaId, rating: review.rating, liked: review.liked, content: "CONTENT IDK WHAT")
         
         let data = try JSONEncoder().encode(reviewServer)
         
@@ -81,11 +80,15 @@ class ReviewModel {
     
 }
 struct Review: Codable {
+    
+    var id: String
+    var userId: String
     var mediaId: Int
-    var mediaName: String
-    var rating: Int
-    var liked: Bool
-    var watched: Bool
+    var rating: Int = 0
+    var watched: Bool?
+    var liked: Bool = false
+    var content: String?
+    var createdAt: String
 }
 
 

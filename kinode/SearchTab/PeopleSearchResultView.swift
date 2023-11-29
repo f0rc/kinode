@@ -69,17 +69,26 @@ struct PeopleSearchResultView: View {
 //                            }
                             
                             if searchItem.isFollowing {
+                                // FOLLOW BUTTON
                                 Button(action: {
                                     self.followApiLoading = true
                                     Task {
                                         do {
-                                            let followedUser = try await followUser(reqInput: userFollowServerInput(sessionToken: authModel.authToken!, userToFollowId: searchItem.userId))
-                                            if followedUser {
-                                                print("followed user success")
+                                            
+                                            let unFollowedUser = try await unFollowUser(reqInput: userFollowServerInput(sessionToken: authModel.authToken!, userToFollowId: searchItem.userId))
+                                            
+                                            if unFollowedUser == true {
+                                                print("unfollowed user success")
+                                                searchItem.isFollowing = false
+                                                
                                             }
+                                            
+                                            
+                                            
+                                            
                                             self.followApiLoading = false
                                         } catch {
-                                            print("failed to follow user")
+                                            print("failed to unfollow user")
                                             print(error.localizedDescription)
                                             self.followApiLoading = false
                                         }
@@ -98,14 +107,20 @@ struct PeopleSearchResultView: View {
                                             .foregroundStyle(.black)
                                     }
                                 })
-                            } else {
+                            }
+                            // TODO: ADD ELSE IF THE SEARCH RESULT IS THE USER'S OWN ACCOUNT THEN DON'T DISPLAY ANY BUTTON, ALSO LINK TO PROFILE, AND ALSO ADD USERID FIELD TO AUTHMODEL
+                            else {
+                                // Unfollow button
                                 Button(action: {
                                     self.followApiLoading = true
+                                    
                                     Task {
                                         do {
                                             let followedUser = try await followUser(reqInput: userFollowServerInput(sessionToken: authModel.authToken!, userToFollowId: searchItem.userId))
                                             if followedUser {
                                                 print("followed user success")
+                                                searchItem.isFollowing = true
+                                                
                                             }
                                             self.followApiLoading = false
                                         } catch {
@@ -114,6 +129,7 @@ struct PeopleSearchResultView: View {
                                             self.followApiLoading = false
                                         }
                                     }
+                                    
                                     
                                     
                                 }, label: {

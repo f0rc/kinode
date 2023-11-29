@@ -63,7 +63,7 @@ struct Person: Codable {
     let moviesCount: Int
     let showsCount: Int
     let username: String
-    let isFollowing: Bool
+    var isFollowing: Bool
 }
 
 struct User: Codable {

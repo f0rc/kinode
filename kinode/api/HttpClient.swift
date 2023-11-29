@@ -64,6 +64,7 @@ class StoreHTTPClient {
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 || httpResponse.statusCode == 201
         else {
+            print(response)
             print("[httpClient load] http status code is not 200 or 201")
             throw NetworkError.invalidResponse
         }
