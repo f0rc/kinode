@@ -10,7 +10,8 @@ import SwiftUI
 struct MediaDetailView: View {
     @State var mediaItem: SearchResult
     @Environment(ReviewModel.self) private var reviews
-    // get the review info from reviews? 
+    @Environment(AuthModel.self) private var authModel: AuthModel
+    // get the review info from reviews?
     
     @State var gradient = [Color(.clear), Color(.black)]
     private let dateFormatter: DateFormatter = {
@@ -22,6 +23,8 @@ struct MediaDetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State private var modalSelection = false
+    
+    
     
     var body: some View {
         ZStack{
@@ -111,12 +114,12 @@ struct MediaDetailView: View {
                 .padding(EdgeInsets(top: 46, leading: 20, bottom: 0, trailing: 20))
             }
             .frame(maxHeight: .infinity, alignment: .top)
-            .sheet(isPresented: $modalSelection){
-                MediaMoreModal(isShown: $modalSelection, mediaItem: $mediaItem, mediaId: mediaItem.id)
-                    .presentationDetents([.fraction(0.4)])
-                    .presentationDragIndicator(.visible)
-                
-            }
+//            .sheet(isPresented: $modalSelection){
+//                MediaMoreModal(isShown: $modalSelection, mediaItem: $mediaItem, mediaId: mediaItem.id, newReview: Review(id: "\(UUID())", userId: authModel., mediaId: <#T##Int#>, createdAt: <#T##String#>))
+//                    .presentationDetents([.fraction(0.4)])
+//                    .presentationDragIndicator(.visible)
+//                
+//            }
         }
         
         .navigationBarBackButtonHidden(true)
@@ -129,4 +132,5 @@ struct MediaDetailView: View {
 #Preview {
     MediaDetailView(mediaItem: exampleSearchResults[0])
         .environment(ReviewModel())
+        .environment(AuthModel())
 }

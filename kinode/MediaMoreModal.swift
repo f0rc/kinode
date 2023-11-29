@@ -14,7 +14,7 @@ struct MediaMoreModal: View {
     @Environment(ReviewModel.self) private var reviews
     @Environment(AuthModel.self) private var auth
     
-    @State var newReview: Review = Review(mediaId: 0, mediaName: "NA", rating: 0, liked: false, watched: false)
+    @State var newReview: Review
 
     
     var body: some View {
@@ -51,7 +51,7 @@ struct MediaMoreModal: View {
                     Spacer()
                     
                     Button(action: {
-                        newReview.watched.toggle()
+                        self.newReview.watched?.toggle()
                     }, label: {
                         VStack{
                             if newReview.watched != false {
@@ -119,18 +119,13 @@ struct MediaMoreModal: View {
         .onAppear{
             if let reviewMade = reviews.getReview(forMediaItem: mediaItem) {
                 newReview = reviewMade
-            }else {
-                if let mediaItemName = mediaItem.name ?? mediaItem.title {
-                    newReview = Review(mediaId: mediaItem.id, mediaName: mediaItemName, rating: 0, liked: false,watched: false)
-                }
-                
             }
         }
     }
 }
 
 #Preview {
-    MediaMoreModal(isShown: .constant(false), mediaItem: .constant(exampleSearchResults[0]), mediaId: 123, newReview: Review(mediaId: 1234, mediaName: "The Sopranos", rating: 3, liked: true, watched: true))
+    MediaMoreModal(isShown: .constant(false), mediaItem: .constant(exampleSearchResults[0]), mediaId: 123, newReview: Review(id: "1234", userId: "1234", mediaId: 1, createdAt: "w13alskfdj"))
         .environment(ReviewModel())
         .environment(AuthModel())
 
