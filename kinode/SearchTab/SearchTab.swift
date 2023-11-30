@@ -76,7 +76,7 @@ struct SearchTab: View {
                     }
                     .padding(EdgeInsets(top: 30, leading:20, bottom: 20, trailing: 20))
                     if searchText.currValue == "" {
-                        DiscoverView(data: exampleSearchResults)
+                        DiscoverView()
                     }
                     else if searchText.deValue.contains("@"){
                         PeopleSearchResultView(searchResult: $peopleSearchResult)

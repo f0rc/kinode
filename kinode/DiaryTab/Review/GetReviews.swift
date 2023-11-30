@@ -54,7 +54,7 @@ struct GetReviewsApiResponseType: Codable {
     }
 }
 
-struct Review: Codable {
+struct Review: Codable, Identifiable {
     var id: String
     var userId: String
     var mediaId: Int

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrollSearch: View {
-    @State var data: [Media] = []
+    @Binding var data: [Media]
     @State var SectionTitle: String = "New title"
     
     var body: some View {
@@ -34,10 +34,6 @@ struct ScrollSearch: View {
                                     .frame(width: 100, height: 130)
                                     .cornerRadius(20)
                                 }
-                                //                        Image("DefaultPoster")
-                                //                            .resizable()
-                                //                            .frame(width: 100, height: 130)
-                                //                            .cornerRadius(20)
                                 
                             }
                         }
@@ -51,5 +47,5 @@ struct ScrollSearch: View {
 }
 
 #Preview {
-    ScrollSearch()
+    ScrollSearch(data: .constant([]))
 }

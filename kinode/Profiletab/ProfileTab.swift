@@ -22,6 +22,8 @@ struct ProfileTab: View {
     
     @State var profileVM: ProfileModelController
     
+    @State var topMedia: [top4MediaWithReview] = []
+    
     init(sessionToken: String) {
         self.profileVM = ProfileModelController(sessionToken: sessionToken)
     }
@@ -93,14 +95,31 @@ struct ProfileTab: View {
                                 .font(.title2)
                             VStack{
                                 HStack{
-                                    getButton(0, type: 0)
-                                    getButton(1, type: 0)
-                                    getButton(2, type: 0)
-                                    getButton(3, type: 0)
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 0, type: 0){
+                                        getButton(0, type: 0, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(0, type: 0)
+                                    }
+                                    
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 1, type: 0){
+                                        getButton(1, type: 0, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(1, type: 0)
+                                    }
+                                    
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 2, type: 0){
+                                        getButton(2, type: 0, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(2, type: 0)
+                                    }
+                                    
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 3, type: 0){
+                                        getButton(3, type: 0, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(3, type: 0)
+                                    }
                                 }
-                                .sheet(item: $activeItemTop4) {item in
-                                    AddTop4Sheet(typeOfTop: item.typeOfMedia, index: item.id)
-                                }
+                                
                             }
                         }
                         
@@ -110,10 +129,29 @@ struct ProfileTab: View {
                                 .font(.title2)
                             VStack{
                                 HStack{
-                                    getButton(0, type: 1)
-                                    getButton(1, type: 1)
-                                    getButton(2, type: 1)
-                                    getButton(3, type: 1)
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 0, type: 1){
+                                        getButton(0, type: 1, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(0, type: 1)
+                                    }
+                                    
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 1, type: 1){
+                                        getButton(1, type: 1, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(1, type: 1)
+                                    }
+                                    
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 2, type: 1){
+                                        getButton(2, type: 1, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(2, type: 1)
+                                    }
+                                    
+                                    if let topMediaPoster = getPosterIfTop(mediaItems: topMedia, index: 3, type: 1){
+                                        getButton(3, type: 1, imageName: topMediaPoster)
+                                    }else {
+                                        getButton(3, type: 1)
+                                    }
                                 }
                             }
                         }
@@ -143,26 +181,76 @@ struct ProfileTab: View {
                         .presentationDragIndicator(.visible)
                 }
                 
+                .sheet(item: $activeItemTop4, onDismiss: {
+                    if let authTok = auth.authToken {
+                        Task {
+                            try await fetchTop4List(sesstionToken: authTok)
+                        }
+                    }
+                }) {item in
+                    AddTop4Sheet(typeOfTop: item.typeOfMedia, index: item.id)
+                        .presentationDragIndicator(.visible)
+                        
+                }
+                
             }
         }
         .onAppear {
             if let authTok = auth.authToken {
                 self.profileVM = ProfileModelController(sessionToken: authTok)
+                
+                Task {
+                    try await fetchTop4List(sesstionToken: authTok)
+                }
             }
         }
     }
     
-    func getButton(_ i: Int, type: Int) -> some View {
+    func getButton(_ i: Int, type: Int, imageName: String? = nil) -> some View {
         return Button(action: {
             print("\(i), type: \(type)")
             activeItemTop4 = ActiveItem(typeOfMedia: type, id: i)
         },
                       label: {
-            Image(systemName: "plus")
+            if imageName != nil {
+                
+                AsyncImage(url: URL(string: tmdbImage(imagePath: imageName ?? "").fullPath)){img in
+                    img.resizable()
+                } placeholder: {
+                    Image("DefaultPoster")
+                        .resizable()
+                }
                 .frame(width: 80, height: 150)
-                .background(.gray)
+                
+            } else {
+                Image(systemName: "plus")
+                    .frame(width: 80, height: 150)
+                    .background(.gray)
+                    .foregroundStyle(Color("text"))
+            }
         })
     }
+    
+    func fetchTop4List(sesstionToken: String) async throws {
+        struct serverInput: Codable {
+            let sessionToken: String
+        }
+        
+        let httpClient = StoreHTTPClient()
+        
+        let jsonDataInput = try JSONEncoder().encode(serverInput(sessionToken: sesstionToken))
+        
+        let response: top4MediaResponseType = try await httpClient.load(Resource(url: URL.top4Fetch, method: .post(jsonDataInput)))
+        
+        if response.status != "success" {
+            print("SERVER ERROR: \(response.message ?? "NO MESSAGE")")
+            throw GetReviewsApiErro.failedToFetch
+        }
+        
+        topMedia = response.reviews
+    }
+    
+    
 }
 
 
@@ -171,4 +259,34 @@ struct ProfileTab: View {
     ProfileTab(sessionToken: "1234")
         .environment(AuthModel())
     
+}
+
+
+
+struct top4MediaWithReview: Codable {
+    var id: String
+    var userId: String
+    var mediaId: Int
+    var rating: Int
+    var watched: Bool
+    var liked: Bool
+    var content: String?
+    var createdAt: String
+    var topMovie0: Bool
+    var topMovie1: Bool
+    var topMovie2: Bool
+    var topMovie3: Bool
+    
+    var topShow0: Bool
+    var topShow1: Bool
+    var topShow2: Bool
+    var topShow3: Bool
+
+    var media: Media
+}
+
+struct top4MediaResponseType: Codable {
+    let status: String
+    let message: String?
+    let reviews: [top4MediaWithReview]
 }

@@ -171,4 +171,17 @@ extension URL {
         return URL(string: "/api/getTop4", relativeTo: Self.default)!
     }
     
+    static var top4Fetch: URL {
+        return URL(string: "/api/top4Fetch", relativeTo: Self.default)!
+    }
+    
+    static var top4Review: URL {
+        return URL(string: "/api/top4Review", relativeTo: Self.default)!
+    }
+    
+    static var discover: URL {
+        return URL(string: "/api/discover", relativeTo: Self.default)!
+    }
+
+    
 }
