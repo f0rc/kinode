@@ -14,7 +14,7 @@ struct kinodeApp: App {
     var body: some Scene {
         @Environment(AuthModel.self) var auth
         WindowGroup {
-            ContentView()
+            Splash()
                 .environment(AuthModel())
         }
         .environment(AuthModel())

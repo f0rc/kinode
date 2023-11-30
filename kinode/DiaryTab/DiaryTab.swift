@@ -21,6 +21,7 @@ struct DiaryTab: View {
         ZStack{
             if Feed.count > 0 {
                 VStack{
+                    
                     List{
                         ForEach($Feed.sorted { (item1, item2) -> Bool in
                             
@@ -120,7 +121,7 @@ struct DiaryTab: View {
 
 
 func reviewDescription(liked: Bool?, watched: Bool?, rating: Int?, mediaName: String, username: String) -> String {
-    var description = username
+    var description = "You"
     
     if liked != nil {
         description += " liked"
