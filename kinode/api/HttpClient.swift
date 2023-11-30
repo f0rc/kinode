@@ -93,6 +93,7 @@ enum NetworkError: Error {
 extension URL {
     
     static var development: URL {
+//        URL(string: "https://movieappapi-omega.vercel.app")!
         URL(string: "http://localhost:3000")!
     }
     
