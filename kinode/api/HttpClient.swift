@@ -167,4 +167,8 @@ extension URL {
         return URL(string: "/api/oneReview", relativeTo: Self.default)!
     }
     
+    static var getTop4: URL {
+        return URL(string: "/api/getTop4", relativeTo: Self.default)!
+    }
+    
 }
