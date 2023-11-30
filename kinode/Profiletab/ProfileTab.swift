@@ -8,10 +8,17 @@
 import SwiftUI
 import SwiftData
 
+
+struct ActiveItem : Identifiable {
+    var typeOfMedia: Int
+    var id: Int
+}
+
 struct ProfileTab: View {
     @Environment(AuthModel.self) private var auth
     
     @State private var toggleSettings: Bool = false
+    @State private var activeItemTop4: ActiveItem?
     
     @State var profileVM: ProfileModelController
     
@@ -86,21 +93,13 @@ struct ProfileTab: View {
                                 .font(.title2)
                             VStack{
                                 HStack{
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
-                                    
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
-                                    
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
-                                    
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
+                                    getButton(0, type: 0)
+                                    getButton(1, type: 0)
+                                    getButton(2, type: 0)
+                                    getButton(3, type: 0)
+                                }
+                                .sheet(item: $activeItemTop4) {item in
+                                    AddTop4Sheet(typeOfTop: item.typeOfMedia, index: item.id)
                                 }
                             }
                         }
@@ -111,21 +110,10 @@ struct ProfileTab: View {
                                 .font(.title2)
                             VStack{
                                 HStack{
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
-                                    
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
-                                    
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
-                                    
-                                    Image(systemName: "plus")
-                                        .frame(width: 80, height: 150)
-                                        .background(.gray)
+                                    getButton(0, type: 1)
+                                    getButton(1, type: 1)
+                                    getButton(2, type: 1)
+                                    getButton(3, type: 1)
                                 }
                             }
                         }
@@ -142,19 +130,19 @@ struct ProfileTab: View {
                         toggleSettings.toggle()
                     }) {
                         Image(systemName: "gear")
-                            .foregroundStyle(Color("accent"))
+                            .foregroundStyle(Color("accentC"))
                             .font(.title2)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color("backgroundColor"))
                 .sheet(isPresented: $toggleSettings){
-                    
                     SettingsSheet(userProfileInfo: $profileVM.user, userModel: $profileVM)
                         .presentationDetents([.large])
                         .presentationBackground(.yellow)
                         .presentationDragIndicator(.visible)
                 }
+                
             }
         }
         .onAppear {
@@ -163,6 +151,18 @@ struct ProfileTab: View {
             }
         }
     }
+    
+    func getButton(_ i: Int, type: Int) -> some View {
+        return Button(action: {
+            print("\(i), type: \(type)")
+            activeItemTop4 = ActiveItem(typeOfMedia: type, id: i)
+        },
+                      label: {
+            Image(systemName: "plus")
+                .frame(width: 80, height: 150)
+                .background(.gray)
+        })
+    }
 }
 
 
@@ -170,5 +170,5 @@ struct ProfileTab: View {
 #Preview {
     ProfileTab(sessionToken: "1234")
         .environment(AuthModel())
-        
+    
 }

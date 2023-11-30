@@ -27,7 +27,7 @@ func loadReviewsApi(authToken: String) async throws -> [CReview]? {
     
     
     // converting to [CReview] Type
-    let reviewListWithAuthors: [GetReviewsApiResponseType.ReviewListWithAuthor] = [response.reviewList]
+    let reviewListWithAuthors: [GetReviewsApiResponseType.ReviewListWithAuthor] = response.reviewList
     let cReviews: [CReview] = reviewListWithAuthors.map { reviewListWithAuthor in
         let review = reviewListWithAuthor.review
         let author = reviewListWithAuthor.author
@@ -44,11 +44,11 @@ struct GetReviewsApiResponseType: Codable {
     let status: String
     let message: String?
     
-    var reviewList: ReviewListWithAuthor
+    var reviewList: [ReviewListWithAuthor]
     
     
     struct ReviewListWithAuthor: Codable {
-        var review: NewReviewForm
+        var review: Review
         var author: Author
         var media: Media
     }

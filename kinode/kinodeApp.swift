@@ -18,7 +18,6 @@ struct kinodeApp: App {
                 .environment(AuthModel())
         }
         .environment(AuthModel())
-        .modelContainer(for: CReview.self)
     }
     
 }

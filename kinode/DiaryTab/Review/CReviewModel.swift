@@ -9,24 +9,27 @@ import Foundation
 import SwiftData
 
 
-@Model
-class CReview: Identifiable {
-    
-    var internalId: String
-    var review: NewReviewForm
+//@Model
+//class CReview: Identifiable {
+//    
+//    var internalId: String
+//    
+//    
+//
+//    
+//    init(review: NewReviewForm, author: Author, media: Media) {
+//        self.internalId = UUID().uuidString
+//        self.review = review
+//        self.author = author
+//        self.media = media
+//    }
+//}
+
+struct CReview: Codable {
+    var review: Review
     var author: Author
     var media: Media
-    
-
-    
-    init(review: NewReviewForm, author: Author, media: Media) {
-        self.internalId = UUID().uuidString
-        self.review = review
-        self.author = author
-        self.media = media
-    }
 }
-
 
 struct NewReviewForm: Codable {
     var mediaId: Int
@@ -41,7 +44,7 @@ struct Author: Codable {
     var username: String
 }
 
-struct Media: Codable {
+struct Media: Codable, Hashable {
     
     var id: Int
     
