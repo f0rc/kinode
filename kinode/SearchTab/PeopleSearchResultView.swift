@@ -177,3 +177,16 @@ func getJoinYear(createdAt: String) -> Int? {
     }
     return nil
 }
+
+func getDate(createdAt: String) -> String? {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    
+    if let date = dateFormatter.date(from: createdAt) {
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "yyyy-MM-dd"
+        return outputFormatter.string(from: date)
+    }
+    
+    return nil // Return nil if conversion fails
+}

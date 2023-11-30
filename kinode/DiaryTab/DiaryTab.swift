@@ -22,7 +22,24 @@ struct DiaryTab: View {
             if Feed.count > 0 {
                 VStack{
                     List{
-                        ForEach($Feed, id: \.review.id) { re in
+                        ForEach($Feed.sorted { (item1, item2) -> Bool in
+                            
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                            let date1 = dateFormatter.date(from: item1.review.createdAt.wrappedValue)
+                            let date2 = dateFormatter.date(from: item2.review.createdAt.wrappedValue)
+                            
+                            
+                            guard let time1 = date1?.timeIntervalSince1970 else {
+                                return true
+                            }
+                            
+                            guard let time2 = date2?.timeIntervalSince1970 else {
+                                return true
+                            }
+                            
+                            return time1 > time2
+                        }, id: \.review.id) { re in
                             HStack {
                                 AsyncImage(url: URL(string: tmdbImage(imagePath: re.media.posterPath.wrappedValue ?? "").fullPath)){img in
                                     img.resizable()
@@ -33,18 +50,26 @@ struct DiaryTab: View {
                                 .frame(width: 100, height: 130)
                                 .cornerRadius(20)
                                 
-                                VStack (alignment: .center){
+                                VStack (alignment: .leading){
                                     let desc = reviewDescription(liked: re.review.liked.wrappedValue, watched: re.review.watched.wrappedValue, rating: re.review.rating.wrappedValue, mediaName: (re.media.name.wrappedValue ?? re.media.title.wrappedValue) ?? "", username: re.author.username.wrappedValue)
                                     
                                     Text(desc)
-                                        .padding(.horizontal, 20)
+                                        
                                     
                                     Spacer()
                                     
-                                    StarRatingView(rating: re.review.rating.wrappedValue)
-                                        .padding(.bottom, 10)
+                                    HStack {
+                                        StarRatingView(rating: re.review.rating.wrappedValue)
+                                            .padding(.bottom, 10)
+                                    }
+                                    
+                                    if let year = getDate(createdAt: re.review.createdAt.wrappedValue) {
+                                        Text("\(year)")
+                                            .font(.footnote)
+                                    }
                                 }
                                 .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
                             }
                         }
                     }
