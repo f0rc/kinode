@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct SearchTab: View {
-    @State private var searchResult: [SearchResult] = []
+    @State private var searchResult: [Media] = []
     
     
     @State private var peopleSearchResult: [Person] = []

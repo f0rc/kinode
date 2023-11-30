@@ -9,18 +9,18 @@ import SwiftUI
 
 struct DiscoverView: View {
     
-    var data: [SearchResult]
+    var data: [Media]
     
     var body: some View {
         ScrollView{
             VStack {
-                ScrollSearch(data: exampleSearchResults, SectionTitle: "New Movie Releases")
-                
-                ScrollSearch(data: exampleSearchResults, SectionTitle: "Popular Movie")
-                
-                ScrollSearch(data: exampleSearchResults, SectionTitle: "New TV Show Releases")
-                
-                ScrollSearch(data: exampleSearchResults, SectionTitle: "Popular TV Show")
+//                ScrollSearch(data: exampleSearchResults, SectionTitle: "New Movie Releases")
+//                
+//                ScrollSearch(data: exampleSearchResults, SectionTitle: "Popular Movie")
+//                
+//                ScrollSearch(data: exampleSearchResults, SectionTitle: "New TV Show Releases")
+//                
+//                ScrollSearch(data: exampleSearchResults, SectionTitle: "Popular TV Show")
             }
             
         }

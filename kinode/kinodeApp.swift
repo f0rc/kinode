@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 @main
 struct kinodeApp: App {
@@ -14,9 +16,9 @@ struct kinodeApp: App {
         WindowGroup {
             ContentView()
                 .environment(AuthModel())
-                .environment(ReviewModel())
         }
         .environment(AuthModel())
+        .modelContainer(for: CReview.self)
     }
     
 }

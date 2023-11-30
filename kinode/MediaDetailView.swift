@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MediaDetailView: View {
-    @State var mediaItem: SearchResult
-    @Environment(ReviewModel.self) private var reviews
+    @State var mediaItem: Media
     @Environment(AuthModel.self) private var authModel: AuthModel
     // get the review info from reviews?
     
@@ -24,7 +24,8 @@ struct MediaDetailView: View {
     
     @State private var modalSelection = false
     
-    
+    @State private var apiReivew: Review? = nil
+    @State private var loadedReview = false
     
     var body: some View {
         ZStack{
@@ -114,13 +115,14 @@ struct MediaDetailView: View {
                 .padding(EdgeInsets(top: 46, leading: 20, bottom: 0, trailing: 20))
             }
             .frame(maxHeight: .infinity, alignment: .top)
-//            .sheet(isPresented: $modalSelection){
-//                MediaMoreModal(isShown: $modalSelection, mediaItem: $mediaItem, mediaId: mediaItem.id, newReview: Review(id: "\(UUID())", userId: authModel., mediaId: <#T##Int#>, createdAt: <#T##String#>))
-//                    .presentationDetents([.fraction(0.4)])
-//                    .presentationDragIndicator(.visible)
-//                
-//            }
+            .sheet(isPresented: $modalSelection){
+                MediaMoreModal(isShown: $modalSelection, mediaItem: $mediaItem, mediaId: mediaItem.id, newReviewFormInput: NewReviewForm(mediaId: mediaItem.id, rating: apiReivew?.rating ?? 0, watched: apiReivew?.watched ?? false, liked: apiReivew?.liked ?? false, content: apiReivew?.content))
+                    .presentationDetents([.fraction(0.4)])
+                    .presentationDragIndicator(.visible)
+                
+            }
         }
+        
         
         .navigationBarBackButtonHidden(true)
         .background(.black)
@@ -131,6 +133,5 @@ struct MediaDetailView: View {
 
 #Preview {
     MediaDetailView(mediaItem: exampleSearchResults[0])
-        .environment(ReviewModel())
         .environment(AuthModel())
 }

@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct MediaSearchResult: View {
-    @Binding var searchResult: [SearchResult]
-    
-    
-    
-    
-    
+    @Binding var searchResult: [Media]
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             

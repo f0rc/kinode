@@ -9,13 +9,13 @@ import SwiftUI
 
 struct MediaMoreModal: View {
     @Binding var isShown: Bool
-    @Binding var mediaItem: SearchResult
+    @Binding var mediaItem: Media
     var mediaId: Int
-    @Environment(ReviewModel.self) private var reviews
     @Environment(AuthModel.self) private var auth
     
-    @State var newReview: Review
-
+    @State var newReviewFormInput: NewReviewForm
+    @State private var loadedReview: Bool = false
+    
     
     var body: some View {
         
@@ -31,10 +31,10 @@ struct MediaMoreModal: View {
                 Spacer()
                 HStack(spacing:0){
                     Button(action: {
-                        newReview.liked.toggle()
+                        $newReviewFormInput.liked.wrappedValue.toggle()
                     }, label: {
                         VStack{
-                            if newReview.liked != false {
+                            if $newReviewFormInput.liked.wrappedValue != false {
                                 Image(systemName:"heart.fill")
                                     .foregroundStyle(.red)
                                     .font(.largeTitle)
@@ -51,10 +51,10 @@ struct MediaMoreModal: View {
                     Spacer()
                     
                     Button(action: {
-                        self.newReview.watched?.toggle()
+                        $newReviewFormInput.watched.wrappedValue.toggle()
                     }, label: {
                         VStack{
-                            if newReview.watched != false {
+                            if $newReviewFormInput.watched.wrappedValue != false {
                                 Image(systemName:"eye.fill")
                                     .foregroundStyle(.blue)
                                     .font(.largeTitle)
@@ -90,7 +90,7 @@ struct MediaMoreModal: View {
                         .foregroundStyle(.white)
                     
                     
-                    RatingView(rating: $newReview.rating)
+                    RatingView(rating: $newReviewFormInput.rating)
                 }
                 Divider()
                 Spacer()
@@ -98,11 +98,19 @@ struct MediaMoreModal: View {
                 Section{
                     Button(action: {
                         Task{
-                            if let token = auth.authToken {
-                                await reviews.addReview(review: newReview, sessionToken: token)
+                            guard let authToken = auth.authToken else {
+                                print("no auth token in MediaMoreModal")
+                                return
                             }
-                            
-                            reviews.loadReviews()
+                            do {
+                                _ = try await createReview(
+                                    mediaId: mediaItem.id,
+                                    rating: $newReviewFormInput.rating.wrappedValue, watched: $newReviewFormInput.watched.wrappedValue, content: $newReviewFormInput.content.wrappedValue, liked: $newReviewFormInput.liked.wrappedValue, sessionToken: authToken)
+                                print("successfully made review")
+                            }
+                            catch {
+                                print("failed to create review")
+                            }
                             isShown.toggle()
                         }
                     }, label: {
@@ -110,25 +118,40 @@ struct MediaMoreModal: View {
                             .foregroundStyle(.white)
                             .font(.largeTitle)
                     })
-                        
+                    
                 }
                 
             }
             .padding(.horizontal, 40)
         }
-        .onAppear{
-            if let reviewMade = reviews.getReview(forMediaItem: mediaItem) {
-                newReview = reviewMade
+        .onAppear {
+            Task {
+                do {
+                    if let token = auth.authToken {
+                        let j = try await getOneReview(authToken: token, mediaId: mediaItem.id)
+                        
+                        print("FOUND REVIEW")
+                        loadedReview = true
+                        guard let joemama = j else {
+                            return
+                        }
+                    newReviewFormInput = NewReviewForm(mediaId: joemama.mediaId, rating: joemama.rating, watched: joemama.watched, liked: joemama.liked, content: joemama.content)
+                    }
+                } catch {
+                    loadedReview = true
+                    print("No review found new review created")
+                }
             }
         }
     }
 }
 
 #Preview {
-    MediaMoreModal(isShown: .constant(false), mediaItem: .constant(exampleSearchResults[0]), mediaId: 123, newReview: Review(id: "1234", userId: "1234", mediaId: 1, createdAt: "w13alskfdj"))
-        .environment(ReviewModel())
+    MediaMoreModal(isShown: .constant(false), mediaItem: .constant(exampleSearchResults[0]), mediaId: 123, newReviewFormInput: fakeReviewPage)
         .environment(AuthModel())
-
+    
 }
+
+let fakeReviewPage: NewReviewForm = NewReviewForm(mediaId: 1234, rating: 4, watched: false, liked: true)
 
 

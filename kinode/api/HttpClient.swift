@@ -64,7 +64,6 @@ class StoreHTTPClient {
         guard let httpResponse = response as? HTTPURLResponse,
               httpResponse.statusCode == 200 || httpResponse.statusCode == 201
         else {
-            print(response)
             print("[httpClient load] http status code is not 200 or 201")
             throw NetworkError.invalidResponse
         }
@@ -72,7 +71,6 @@ class StoreHTTPClient {
         
         guard let result = try? JSONDecoder().decode(T.self, from: data) else {
             print("[httpClient load] after success req decode failed")
-            print(data)
             throw NetworkError.decodingError
         }
         
@@ -132,7 +130,7 @@ extension URL {
         return URL(string: "/api/search", relativeTo: Self.default)!
     }
     
-    static var review: URL {
+    static var createReview: URL {
         return URL(string: "/api/createReview", relativeTo: Self.default)!
     }
     
@@ -163,6 +161,10 @@ extension URL {
     
     static var unfollowUser: URL {
         return URL(string: "/api/user/unfollow", relativeTo: Self.default)!
+    }
+    
+    static var getOneReview: URL {
+        return URL(string: "/api/oneReview", relativeTo: Self.default)!
     }
     
 }

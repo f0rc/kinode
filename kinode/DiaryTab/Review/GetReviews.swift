@@ -8,57 +8,96 @@
 import Foundation
 
 
-struct ReviewList: Codable {
-    var review: Review
-    var media: SearchResult
-    var author: Author
-    
-    
-    struct Author: Codable {
-        var id: String
-        var username: String
-    }
-}
-
-struct GetReviewsServerResponse: Codable {
-    var status: String
-    var message: String?
-    var reviewList: [ReviewList]?
-}
-
-
-@Observable
-class GetReviews{
-    var reviewList: [ReviewList] = []
-    
-    
-    init(authToken: String){
-        Task {
-            self.reviewList = try await loadReviews(authToken: authToken) ?? []
-        }
-    }
-}
-
-func loadReviews(authToken: String) async throws -> [ReviewList]? {
-    let client = StoreHTTPClient()
-    
+func loadReviewsApi(authToken: String) async throws -> [CReview]? {
     struct serverInput: Codable {
-        var sessionToken: String
+        let sessionToken: String
     }
     
-    let data = try JSONEncoder().encode(serverInput(sessionToken:authToken))
+    let httpClient = StoreHTTPClient()
     
+    let jsonDataInput = try JSONEncoder().encode(serverInput(sessionToken: authToken))
     
-    let res: GetReviewsServerResponse  = try await client.load(Resource(url: URL.getReviews, method: .post(data)))
+    let response: GetReviewsApiResponseType = try await httpClient.load(Resource(url: URL.getReviews, method: .post(jsonDataInput)))
     
-    if res.status != "success" {
-        return nil
+    if response.status != "success" {
+        print("SERVER ERROR: \(response.message ?? "NO MESSAGE")")
+        throw GetReviewsApiErro.failedToFetch
     }
     
-    if let gotReviews = res.reviewList {
-        return gotReviews
+    
+    
+    // converting to [CReview] Type
+    let reviewListWithAuthors: [GetReviewsApiResponseType.ReviewListWithAuthor] = [response.reviewList]
+    let cReviews: [CReview] = reviewListWithAuthors.map { reviewListWithAuthor in
+        let review = reviewListWithAuthor.review
+        let author = reviewListWithAuthor.author
+        let media = reviewListWithAuthor.media
+        
+        return CReview(review: review, author: author, media: media)
     }
     
-    return nil
+    return cReviews
 }
 
+
+struct GetReviewsApiResponseType: Codable {
+    let status: String
+    let message: String?
+    
+    var reviewList: ReviewListWithAuthor
+    
+    
+    struct ReviewListWithAuthor: Codable {
+        var review: NewReviewForm
+        var author: Author
+        var media: Media
+    }
+}
+
+struct Review: Codable {
+    var id: String
+    var userId: String
+    var mediaId: Int
+    var rating: Int
+    var watched: Bool
+    var liked: Bool
+    var content: String?
+    var createdAt: String
+}
+
+enum GetReviewsApiErro: Error {
+    case failedToDecode
+    
+    case failedToFetch
+    
+    case unlucky
+}
+
+
+
+struct getOneReviewResponseType: Codable {
+    let status: String
+    let message: String?
+    let review: Review
+}
+
+func getOneReview(authToken: String, mediaId: Int) async throws -> Review? {
+    struct serverInput: Codable {
+        let sessionToken: String
+        let mediaId: Int
+    }
+    
+    let httpClient = StoreHTTPClient()
+    
+    let jsonDataInput = try JSONEncoder().encode(serverInput(sessionToken: authToken, mediaId: mediaId))
+    
+    let response: getOneReviewResponseType = try await httpClient.load(Resource(url: URL.getOneReview, method: .post(jsonDataInput)))
+    
+    if response.status != "success" {
+        print("SERVER ERROR: \(response.message ?? "NO MESSAGE")")
+        throw GetReviewsApiErro.failedToFetch
+    }
+    
+    return response.review
+
+}
