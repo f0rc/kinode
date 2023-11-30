@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct ContentView: View {
     
     @State private var selection: Tab = .home
     
     @Environment(AuthModel.self) private var auth
-    
-    @Environment(ReviewModel.self) private var reviews
 
+    
     
     var body: some View {
         if auth.isAuthenticated && !auth.loading {
@@ -72,7 +73,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(AuthModel())
-        .environment(ReviewModel())
 }
 
 

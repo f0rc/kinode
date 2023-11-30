@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F806AF142B17C2E900881796 /* CReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F806AF132B17C2E900881796 /* CReviewModel.swift */; };
+		F806AF162B17C3CD00881796 /* DiaryTabv2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F806AF152B17C3CD00881796 /* DiaryTabv2.swift */; };
+		F831570E2B182FA500BFCE78 /* CreateReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F831570D2B182FA500BFCE78 /* CreateReview.swift */; };
 		F837B1A22B0F034B005F33FD /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F837B1A12B0F034B005F33FD /* DiscoverView.swift */; };
 		F837B1A42B0F03D5005F33FD /* MediaSearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F837B1A32B0F03D5005F33FD /* MediaSearchResult.swift */; };
 		F837B1A62B0F0567005F33FD /* PeopleSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F837B1A52B0F0567005F33FD /* PeopleSearchResultView.swift */; };
@@ -23,7 +26,6 @@
 		F8FA11522AF84AD900EB094B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA11392AF84AD900EB094B /* LoginView.swift */; };
 		F8FA11532AF84AD900EB094B /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA113A2AF84AD900EB094B /* KeychainService.swift */; };
 		F8FA11542AF84AD900EB094B /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA113B2AF84AD900EB094B /* CreateAccountView.swift */; };
-		F8FA11552AF84AD900EB094B /* ReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA113D2AF84AD900EB094B /* ReviewModel.swift */; };
 		F8FA11562AF84AD900EB094B /* GetReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA113E2AF84AD900EB094B /* GetReviews.swift */; };
 		F8FA11572AF84AD900EB094B /* ScrollSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA11402AF84AD900EB094B /* ScrollSearch.swift */; };
 		F8FA11592AF84AD900EB094B /* ProfileTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FA11422AF84AD900EB094B /* ProfileTab.swift */; };
@@ -39,6 +41,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F806AF132B17C2E900881796 /* CReviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CReviewModel.swift; sourceTree = "<group>"; };
+		F806AF152B17C3CD00881796 /* DiaryTabv2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTabv2.swift; sourceTree = "<group>"; };
+		F831570D2B182FA500BFCE78 /* CreateReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReview.swift; sourceTree = "<group>"; };
 		F837B1A12B0F034B005F33FD /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		F837B1A32B0F03D5005F33FD /* MediaSearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSearchResult.swift; sourceTree = "<group>"; };
 		F837B1A52B0F0567005F33FD /* PeopleSearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleSearchResultView.swift; sourceTree = "<group>"; };
@@ -56,7 +61,6 @@
 		F8FA11392AF84AD900EB094B /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F8FA113A2AF84AD900EB094B /* KeychainService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		F8FA113B2AF84AD900EB094B /* CreateAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
-		F8FA113D2AF84AD900EB094B /* ReviewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewModel.swift; sourceTree = "<group>"; };
 		F8FA113E2AF84AD900EB094B /* GetReviews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetReviews.swift; sourceTree = "<group>"; };
 		F8FA11402AF84AD900EB094B /* ScrollSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollSearch.swift; sourceTree = "<group>"; };
 		F8FA11422AF84AD900EB094B /* ProfileTab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTab.swift; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 			children = (
 				F8FA113C2AF84AD900EB094B /* Review */,
 				F8FA11482AF84AD900EB094B /* DiaryTab.swift */,
+				F806AF152B17C3CD00881796 /* DiaryTabv2.swift */,
 			);
 			path = DiaryTab;
 			sourceTree = "<group>";
@@ -160,8 +165,9 @@
 		F8FA113C2AF84AD900EB094B /* Review */ = {
 			isa = PBXGroup;
 			children = (
-				F8FA113D2AF84AD900EB094B /* ReviewModel.swift */,
 				F8FA113E2AF84AD900EB094B /* GetReviews.swift */,
+				F806AF132B17C2E900881796 /* CReviewModel.swift */,
+				F831570D2B182FA500BFCE78 /* CreateReview.swift */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 				F8FA115A2AF84AD900EB094B /* MediaMoreModal.swift in Sources */,
 				F8FA11602AF84AD900EB094B /* TabBarView.swift in Sources */,
 				F8FA11572AF84AD900EB094B /* ScrollSearch.swift in Sources */,
+				F806AF162B17C3CD00881796 /* DiaryTabv2.swift in Sources */,
 				F85296D92B09D638008EF726 /* DebounceInput.swift in Sources */,
 				F8BE831F2AF84A09007DFF42 /* kinodeApp.swift in Sources */,
 				F8FA11542AF84AD900EB094B /* CreateAccountView.swift in Sources */,
@@ -293,8 +300,9 @@
 				F8FA115E2AF84AD900EB094B /* DiaryTab.swift in Sources */,
 				F8C3A13E2B152FF9000E5E39 /* UserFollowClient.swift in Sources */,
 				F8FA115D2AF84AD900EB094B /* MediaDetailView.swift in Sources */,
-				F8FA11552AF84AD900EB094B /* ReviewModel.swift in Sources */,
+				F831570E2B182FA500BFCE78 /* CreateReview.swift in Sources */,
 				F837B1A22B0F034B005F33FD /* DiscoverView.swift in Sources */,
+				F806AF142B17C2E900881796 /* CReviewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

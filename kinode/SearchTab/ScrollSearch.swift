@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ScrollSearch: View {
-    @State var data: [SearchResult] = []
+    @State var data: [Media] = []
     @State var SectionTitle: String = "New title"
     
     var body: some View {

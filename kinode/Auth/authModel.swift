@@ -29,6 +29,8 @@ class AuthModel {
     
     var authToken: String?
     var userEmail: String?
+    var userId: String?
+    
     var isAuthenticated: Bool = false
     var loading: Bool = false
     
