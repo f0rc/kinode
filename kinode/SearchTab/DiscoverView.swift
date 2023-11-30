@@ -18,13 +18,15 @@ struct DiscoverView: View {
     var body: some View {
         ScrollView{
             VStack {
+                
+                ScrollSearch(data: $popularMovie, SectionTitle: "Popular Movies")
                 ScrollSearch(data: $newMovieRelease, SectionTitle: "New Movie Releases")
                 
-                ScrollSearch(data: $popularMovie, SectionTitle: "Popular Movie")
+                
                 
                 ScrollSearch(data: $newTVShows, SectionTitle: "New TV Show Releases")
                 
-                ScrollSearch(data: $popularTVShows, SectionTitle: "Popular TV Show")
+                ScrollSearch(data: $popularTVShows, SectionTitle: "Popular TV Shows")
             }
             
         }
@@ -59,7 +61,7 @@ struct DiscoverView: View {
             throw GetReviewsApiErro.failedToFetch
         }
         
-        print(response.newFilms.count)
+
         
         
         newMovieRelease = response.newFilms
