@@ -28,6 +28,7 @@ struct SettingsSheet: View {
     @State private var usernameAvailable: Bool = false
     @State private var loadingUsernameCheck: Bool = false
     
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -112,8 +113,6 @@ struct SettingsSheet: View {
             }
             .navigationTitle("Settings")
             .toolbar {
-                
-                    
                     if toggleEdit {
                         ToolbarItem(placement: .topBarTrailing){
                             Button(action: {
@@ -132,13 +131,15 @@ struct SettingsSheet: View {
                                 toggleEdit.toggle()
                             }) {
                                 Text("Cancel")
+                                    .foregroundStyle(Color.text)
                             }
                         }
+                        
 
                         ToolbarItem(placement: .topBarTrailing){
                             Button(action: {
                                 Task{
-                                    if usernameAvailable {
+                                    if usernameAvailable || userModel.user.username == searchText.deValue {
                                         if let token = auth.authToken {
                                             do {
                                                 try await userModel.updateUserProfileApi(sessionToken: token)
@@ -162,6 +163,7 @@ struct SettingsSheet: View {
             
             
         }
+        .accentColor(Color.text)
         .onAppear {
             self.searchText.currValue = userProfileInfo.username
             self.searchText.deValue = userProfileInfo.username

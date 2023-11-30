@@ -16,7 +16,7 @@ struct ScrollSearch: View {
             VStack(alignment: .leading){
                 Text(SectionTitle)
                     .font(.title2)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.text)
                     .padding(.horizontal, 20)
                 
                 ScrollView(.horizontal, showsIndicators: false){

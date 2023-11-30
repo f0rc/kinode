@@ -177,7 +177,8 @@ struct ProfileTab: View {
                 .sheet(isPresented: $toggleSettings){
                     SettingsSheet(userProfileInfo: $profileVM.user, userModel: $profileVM)
                         .presentationDetents([.large])
-                        .presentationBackground(.yellow)
+                        .presentationBackground(Color("secondaryColor"))
+                        
                         .presentationDragIndicator(.visible)
                 }
                 

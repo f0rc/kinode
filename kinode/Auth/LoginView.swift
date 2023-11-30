@@ -15,35 +15,34 @@ struct LoginView: View {
     @Environment(AuthModel.self) private var authModel: AuthModel
     @State var topError = ""
     var body: some View {
+        ZStack{
             NavigationStack {
                 VStack(spacing: 0.0) {
                     Text("MyMovieList")
                         .padding()
+                        .foregroundColor(Color.accentColor)
+                        .font(.largeTitle)
+                        .bold()
                     
-                    Text("\(authModel.authToken ?? "no auth token")")
-                        .padding()
+                    
                     Text("\(topError)")
                         .padding()
                         .font(.footnote)
                         .foregroundStyle(.red)
                     
-
+                    
                     VStack {
                         FormInput(text: $loginForm.email,
                                   title: "Email",
                                   placeholder: "james@example.com")
                         .autocapitalization(.none)
                         .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
                         
                         FormInput(text: $loginForm.password, title: "Password",
                                   placeholder: "password",
                                   isSecureField: true)
                         .autocapitalization(.none)
                         .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
                     }
                     
                     Button(action: {
@@ -61,7 +60,7 @@ struct LoginView: View {
                             .fontWeight(.semibold)
                     }
                     .padding()
-                    .background(Color.red)
+                    .background(Color.accentColor)
                     .foregroundColor(.white)
                     .cornerRadius(15)
                     
@@ -75,13 +74,18 @@ struct LoginView: View {
                         
                     }
                     .padding()
-                
-                
-            }
+                    
+                    
+                }
                 .padding(.horizontal)
+                .frame(maxHeight: .infinity)
+                .background(Color.onbg)
+            }
+            .edgesIgnoringSafeArea(.all)
+            .background(Color.onbg)
         }
-        .background(Color.red)
-        .edgesIgnoringSafeArea(.all)
+        .frame(maxHeight: .infinity)
+        .background(Color.onbg)
     }
 }
 
