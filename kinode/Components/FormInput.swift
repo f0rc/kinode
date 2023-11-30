@@ -16,7 +16,7 @@ struct FormInput: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                .foregroundColor(Color(.darkGray))
+                .foregroundColor(Color(Color.text))
                 .fontWeight(.semibold)
                 .font(.footnote)
             
@@ -24,9 +24,11 @@ struct FormInput: View {
             if isSecureField {
                 SecureField(placeholder, text: $text)
                     .font(.system(size: 14))
+                    .foregroundColor(Color(Color.text))
             } else {
                 TextField(placeholder, text: $text)
                     .font(.system(size: 14))
+                    .foregroundColor(Color(Color.text))
             }
             
             Divider()

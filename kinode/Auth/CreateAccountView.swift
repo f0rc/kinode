@@ -10,7 +10,7 @@ import SwiftUI
 struct CreateAccountView: View {
     @State var createUserForm = createUserInput()
     
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.presentationMode) var presentationMode
     
     @Environment(AuthModel.self) private var authModel: AuthModel
     @State var topError: String = ""
@@ -22,18 +22,18 @@ struct CreateAccountView: View {
                 VStack(spacing: 0.0) {
                     Text("MyMovieList")
                         .padding()
+                        .foregroundColor(Color.accentColor)
+                        .font(.largeTitle)
+                        .bold()
                     
                     VStack {
                         Text("\(topError)")
                             .font(.footnote)
-                            .foregroundStyle(.red)
                         FormInput(text: $createUserForm.email,
                                   title: "Email",
                                   placeholder: "james@example.com")
                         .autocapitalization(.none)
                         .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
                         .onChange(of: createUserForm.email){
                             topError = ""
                         }
@@ -43,8 +43,6 @@ struct CreateAccountView: View {
                                   isSecureField: false)
                         .autocapitalization(.none)
                         .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
                         .onChange(of: createUserForm.username){
                             topError = ""
                         }
@@ -54,8 +52,6 @@ struct CreateAccountView: View {
                                   isSecureField: true)
                         .autocapitalization(.none)
                         .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
                         .onChange(of: createUserForm.password){
                             topError = ""
                         }
@@ -65,8 +61,6 @@ struct CreateAccountView: View {
                                   isSecureField: true)
                         .autocapitalization(.none)
                         .padding()
-                        .background(Color.white)
-                        .foregroundColor(.black)
                         .onChange(of: createUserForm.passwordConfrim){
                             topError = ""
                         }
@@ -76,6 +70,7 @@ struct CreateAccountView: View {
                         Task {
                             do{
                                 let didaccountCreate = try await authModel.createUser(createUserForm: createUserForm)
+                                presentationMode.wrappedValue.dismiss()
                             }catch{
                                 topError = "Something went wrong!"
                             }
@@ -83,11 +78,12 @@ struct CreateAccountView: View {
                         }
                     }) {
                         Text("Sign Up")
+                            .foregroundColor(.black)
                             .fontWeight(.semibold)
                     }
                     .padding()
-                    .background(Color.red)
-                    .foregroundColor(.white)
+                    .background(Color.accentC)
+                    .foregroundColor(.text)
                     .cornerRadius(15)
                     
                     HStack(spacing: 5){
@@ -96,7 +92,7 @@ struct CreateAccountView: View {
                             .font(.footnote)
                         
                         Button{
-                            dismiss()
+                            presentationMode.wrappedValue.dismiss()
                         }label: {
                             Text("Log In")
                                 .font(.footnote)
@@ -109,6 +105,9 @@ struct CreateAccountView: View {
                     
                 }
                 .padding(.horizontal)
+                .frame(maxHeight: .infinity)
+                .background(Color.onbg)
+                
         }
         .edgesIgnoringSafeArea(.all)
     }

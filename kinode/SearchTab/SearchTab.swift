@@ -35,7 +35,9 @@ struct SearchTab: View {
                     Group{
                         HStack{
                             Image(systemName: "magnifyingglass")
+                                .foregroundStyle(Color.text)
                             TextField("Search people, movies or shows", text: $searchText.currValue)
+                                .foregroundStyle(Color.text)
                                 .autocorrectionDisabled()
                                 .autocapitalization(.none)
                                 .onChange(of: searchText.deValue){
